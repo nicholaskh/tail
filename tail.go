@@ -170,6 +170,10 @@ func (tail *Tail) reopen() error {
 
 func (tail *Tail) readLine() (string, error) {
 	line, err := tail.reader.ReadString('\n')
+	for line != "" && !strings.HasSuffix(line, "\n") {
+		lineRemains, _ := tail.reader.ReadString('\n')
+		line = fmt.Sprintf("%s%s", line, lineRemains)
+	}
 	if err != nil {
 		// Note ReadString "returns the data read before the error" in
 		// case of an error, including EOF, so we return it as is. The
