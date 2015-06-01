@@ -216,10 +216,6 @@ func (tail *Tail) tailFileSync() {
 	// Read line by line.
 	for {
 		line, err := tail.readLine()
-		if err != nil {
-			tail.Logger.Printf(err.Error() + "\n")
-			tail.Logger.Printf(line + "\n")
-		}
 
 		// Process `line` even if err is EOF.
 		if err == nil || (err == io.EOF && line != "") {
@@ -250,9 +246,7 @@ func (tail *Tail) tailFileSync() {
 			// available. Wait strategy is based on the `tail.watcher`
 			// implementation (inotify or polling).
 			err := tail.waitForChanges()
-			tail.Logger.Printf("aaa")
 			if err != nil {
-				tail.Logger.Printf(err.Error())
 				if err != ErrStop {
 					tail.Kill(err)
 				}
