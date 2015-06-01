@@ -283,7 +283,6 @@ func (tail *Tail) waitForChanges() error {
 		}
 		tail.changes = tail.watcher.ChangeEvents(&tail.Tomb, st)
 	}
-	tail.Logger.Printf("bbb")
 	select {
 	case <-tail.changes.Modified:
 		return nil
