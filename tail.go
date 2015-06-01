@@ -1,13 +1,13 @@
-// Copyright (c) 2013 ActiveState Software Inc. All rights reserved.
+// Copyright (c) 2013 nicholaskh Software Inc. All rights reserved.
 
 package tail
 
 import (
 	"bufio"
 	"fmt"
-	"github.com/ActiveState/tail/ratelimiter"
-	"github.com/ActiveState/tail/util"
-	"github.com/ActiveState/tail/watch"
+	"github.com/nicholaskh/tail/ratelimiter"
+	"github.com/nicholaskh/tail/util"
+	"github.com/nicholaskh/tail/watch"
 	"gopkg.in/tomb.v1"
 	"io"
 	"io/ioutil"
@@ -216,6 +216,10 @@ func (tail *Tail) tailFileSync() {
 	// Read line by line.
 	for {
 		line, err := tail.readLine()
+		if err != nil {
+			tail.Logger.Printf(err.Error() + "\n")
+			tail.Logger.Printf(line + "\n")
+		}
 
 		// Process `line` even if err is EOF.
 		if err == nil || (err == io.EOF && line != "") {
@@ -246,7 +250,9 @@ func (tail *Tail) tailFileSync() {
 			// available. Wait strategy is based on the `tail.watcher`
 			// implementation (inotify or polling).
 			err := tail.waitForChanges()
+			tail.Logger.Printf("aaa")
 			if err != nil {
+				tail.Logger.Printf(err.Error())
 				if err != ErrStop {
 					tail.Kill(err)
 				}
@@ -277,7 +283,7 @@ func (tail *Tail) waitForChanges() error {
 		}
 		tail.changes = tail.watcher.ChangeEvents(&tail.Tomb, st)
 	}
-
+	tail.Logger.Printf("bbb")
 	select {
 	case <-tail.changes.Modified:
 		return nil

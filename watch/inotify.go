@@ -4,7 +4,7 @@ package watch
 
 import (
 	"fmt"
-	"github.com/ActiveState/tail/util"
+	"github.com/nicholaskh/tail/util"
 	"github.com/howeyc/fsnotify"
 	"gopkg.in/tomb.v1"
 	"os"

@@ -8,7 +8,7 @@ package tail
 import (
 	"./watch"
 	_ "fmt"
-	"github.com/ActiveState/tail/ratelimiter"
+	"github.com/nicholaskh/tail/ratelimiter"
 	"io/ioutil"
 	"os"
 	"strings"
